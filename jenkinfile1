@@ -1,12 +1,15 @@
-pipeline{
+pipeline {
     agent any
 
-    tools{
-       maven3.8.2
+    tools {
+        maven 'maven3.8.2'
     }
 
-    stages{
-        stage(git checkout){
+    stages {
+        stage('Git Checkout') {
+            steps {
+                checkout scm
+            }
         }
     }
 }
