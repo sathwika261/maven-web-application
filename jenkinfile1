@@ -30,7 +30,7 @@ pipeline {
 
         stage('SonarQube Scan') {
             steps {
-                withSonarQubeEnv('sonarqube') {
+                withSonarQubeEnv('testing') {
                     sh '''
                         mvn sonar:sonar \
                         -Dsonar.projectKey=maven-web-application \
