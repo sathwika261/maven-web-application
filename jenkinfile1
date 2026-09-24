@@ -22,14 +22,20 @@ pipeline {
 
         stage('Maven Build') {
             steps {
-                sh 'mvn clean package'
+                sh '''
+                    mvn clean package
+                '''
             }
         }
 
         stage('SonarQube Scan') {
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    sh 'mvn sonar:sonar'
+                    sh '''
+                        mvn sonar:sonar \
+                        -Dsonar.projectKey=maven-web-application \
+                        -Dsonar.projectName=maven-web-application
+                    '''
                 }
             }
         }
@@ -67,22 +73,19 @@ pipeline {
 
         stage('Nexus Login') {
             steps {
-
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'nexus-credentials',
+                        credentialsId: "${NEXUS_CREDENTIALS}",
                         usernameVariable: 'NEXUS_USERNAME',
                         passwordVariable: 'NEXUS_PASSWORD'
                     )
                 ]) {
-
                     sh '''
                         echo "$NEXUS_PASSWORD" | \
                         docker login ${NEXUS_REGISTRY} \
                         -u "$NEXUS_USERNAME" \
                         --password-stdin
                     '''
-
                 }
             }
         }
