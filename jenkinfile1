@@ -9,7 +9,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'maven-web-application'
         NEXUS_REGISTRY = 'host.docker.internal:7006'
-        NEXUS_CREDENTIALS = 'nexus-credentials'
+        NEXUS_CREDENTIALS = 'nexus'
     }
 
     stages {
